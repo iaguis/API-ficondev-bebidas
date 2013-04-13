@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from model import loadSession, Distributor, Order, Discount, Product, Product_Order
+from model import loadSession, Distributor, Order, Discount, Product
 import hashlib
 from validator import REG_NICK, REG_SHA1, REG_EMAIL, checkParam
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import IntegrityError
-from json_generator import json_error, json_login, json_logout, json_signup, json_neworder, json_products
+from json_generator import json_error, json_login, json_logout, json_signup, json_neworder, json_products, json_pending_orders
+from json_generator import json_ready_orders
 from datetime import datetime
 import json
 import M2Crypto
@@ -93,8 +94,9 @@ class DAO:
         except:
             return json_error("ProductNonExistant")
 
-        order = Order(datetime.now(), amount)
+        order = Order(datetime.utcnow(), amount)
         order.distributor_id = distributor.dist_id
+        order.product_id = product.product_id
         self.session.add(order)
         try:
             self.session.commit()
@@ -102,15 +104,15 @@ class DAO:
             self.session.rollback()
             return json_error("ProductNotAdded")
 
-        product_order = Product_Order(product_id=product.product_id, order_id=order.order_id)
+        #product_order = Product_Order(product_id=product.product_id, order_id=order.order_id)
 
-        self.session.add(product_order)
+        #self.session.add(product_order)
 
-        try:
-            self.session.commit()
-        except:
-            self.session.rollback()
-            return json_error("ProductNotAdded")
+        #try:
+            #self.session.commit()
+        #except:
+            #self.session.rollback()
+            #return json_error("ProductNotAdded")
 
         return json_neworder(order.order_id)
 
@@ -135,6 +137,34 @@ class DAO:
                 })
 
         return json_products(products_dict)
+
+    def pending_orders(self, session_id):
+        distributor = self._get_distributor(session_id)
+
+        if not distributor:
+            return json_error("NotLoggedIn")
+
+        try:
+            pending_orders = self.session.query(Order).join(Order.distributor).filter(Order.date_ready == None).all()
+        except:
+            return json_error("PendingOrdersError")
+
+        return json_pending_orders(pending_orders)
+
+
+    def ready_orders(self, session_id):
+        distributor = self._get_distributor(session_id)
+
+        if not distributor:
+            return json_error("NotLoggedIn")
+
+        try:
+            ready_orders = self.session.query(Order).join(Order.distributor).filter(Order.date_ready != None).all()
+        except:
+            return json_error("ReadyOrdersError")
+
+        return json_ready_orders(ready_orders)
+
 
     #def get_stories(self, session_id, searchterm, page):
         ## TODO check rest of parameters

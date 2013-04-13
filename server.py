@@ -23,6 +23,15 @@ def neworder(session_id=''):
 def listproducts(session_id=''):
     return dao.list_products(session_id)
 
+@route("/pendingorders/<session_id>")
+def pendingorders(session_id=''):
+    return dao.pending_orders(session_id)
+
+@route("/readyorders/<session_id>")
+def readyorders(session_id=''):
+    return dao.ready_orders(session_id)
+
+
 #@route("/getStories/<session_id>/<searchterm>/<page>")
 #def get_stories(session_id='', searchterm='', page=''):
     #return dao.get_stories(session_id, searchterm, page)

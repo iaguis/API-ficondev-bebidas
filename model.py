@@ -5,6 +5,7 @@ from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
 from config import SQL_PASS, SQL_USER
+from datetime import datetime
 
 _engine = create_engine('mysql+mysqldb://' + SQL_USER + ':' + SQL_PASS + '@localhost/bebidas', echo=True, pool_recycle=3600)
 
@@ -52,13 +53,18 @@ class Order(_Base):
     date = Column(DateTime)
     amount = Column(Integer)
     distributor_id = Column(Integer, ForeignKey('distributor.dist_id'))
+    # change this when a lot of products
+    product_id = Column(Integer, ForeignKey('products.product_id'))
     date_ready = Column(DateTime)
+    date_ordered = Column(DateTime)
 
     distributor = relationship("Distributor", backref=backref('orders'))
+    products = relationship("Product", backref=backref('orders'))
 
     def __init__(self, date, amount):
         self.date = date
         self.amount = amount
+        self.date_ordered = datetime.utcnow()
 
     def __repr__(self):
         return "<Order('%d', '%s')>" % (self.order_id, self.amount)
@@ -77,14 +83,14 @@ class Product(_Base):
     def __repr(self):
         return "<Product('%s')>" % (self.name)
 
-class Product_Order(_Base):
-    __tablename__ = 'product_order'
+#class Product_Order(_Base):
+    #__tablename__ = 'product_order'
 
-    product_order_id = Column(Integer, primary_key=True)
-    product_id = Column(Integer, ForeignKey('products.product_id'))
-    order_id = Column(Integer, ForeignKey('orders.order_id'))
-    product = relationship("Product", backref=backref('orders'))
-    order = relationship("Order", backref=backref('products'))
+    #product_order_id = Column(Integer, primary_key=True)
+    #product_id = Column(Integer, ForeignKey('products.product_id'))
+    #order_id = Column(Integer, ForeignKey('orders.order_id'))
+    #product = relationship("Product", backref=backref('orders'))
+    #order = relationship("Order", backref=backref('products'))
 
 def loadSession():
     Session = sessionmaker(bind=_engine)
