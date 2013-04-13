@@ -8,6 +8,8 @@ from json_generator import json_error, json_login, json_logout, json_signup, jso
 from datetime import datetime
 import json
 import M2Crypto
+#TODO REMOVE THIS
+from json_generator import unix_time_millis
 
 class DAO:
     def __init__(self):
@@ -159,7 +161,7 @@ class DAO:
         distributor = self._get_distributor(session_id)
 
         since_datetime = datetime.fromtimestamp(int(since)//1000)
-        print "SINCE DATETIME =", since_datetime
+        print "SINCE DATETIME =", int(round(unix_time_millis(since_datetime.now())))
 
         if not distributor:
             return json_error("NotLoggedIn")
