@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from model import loadSession, Distributor, Order, Discount, Product
+from model import loadSession, Distributor, Order, Product
 import hashlib
 from validator import REG_NICK, REG_SHA1, REG_EMAIL, checkParam
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import IntegrityError
-from json_generator import json_error, json_login, json_logout, json_signup, json_neworder, json_products, json_pending_orders
-from json_generator import json_ready_orders
+from json_generator import json_error, json_login, json_logout, json_signup, json_neworder, json_products, json_orders
 from datetime import datetime
 import json
 import M2Crypto
@@ -154,7 +153,7 @@ class DAO:
         except:
             return json_error("PendingOrdersError")
 
-        return json_pending_orders(pending_orders)
+        return json_orders(pending_orders)
 
     def ready_orders(self, session_id, since):
         distributor = self._get_distributor(session_id)
@@ -165,11 +164,12 @@ class DAO:
             return json_error("NotLoggedIn")
 
         try:
-            ready_orders = self.session.query(Order).join(Order.distributor).filter(Order.date_ready > since_datetime).all()
+            ready_orders = self.session.query(Order).join(Order.distributor).filter((Order.date_picked == None) &
+                                                                                    (Order.date_ready > since_datetime)).all()
         except:
             return json_error("ReadyOrdersError")
 
-        return json_ready_orders(ready_orders)
+        return json_orders(ready_orders)
 
     def orders(self, session_id):
         distributor = self._get_distributor(session_id)
@@ -180,10 +180,22 @@ class DAO:
         try:
             orders = self.session.query(Order).join(Order.distributor).all()
         except:
-            return json_error("ReadyOrdersError")
+            return json_error("OrdersError")
 
-        return json_
+        return json_orders(orders)
 
+    def picked_orders(self, session_id):
+        distributor = self._get_distributor(session_id)
+
+        if not distributor:
+            return json_error("NotLoggedIn")
+
+        try:
+            orders = self.session.query(Order).join(Order.distributor).filter(Order.date_picked != None).all()
+        except:
+            return json_error("PickedOrdersError")
+
+        return json_orders(orders)
 
 
     #def get_stories(self, session_id, searchterm, page):

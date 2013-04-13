@@ -34,6 +34,15 @@ def readyorders(session_id='', since=''):
     dao.renew_session()
     return dao.ready_orders(session_id, since)
 
+@route("/orders/<session_id>")
+def orders(session_id=''):
+    dao.renew_session()
+    return dao.orders(session_id)
+
+@route("/pickedorders/<session_id>")
+def pickedorders(session_id=''):
+    dao.renew_session()
+    return dao.picked_orders(session_id)
 
 #@route("/getStories/<session_id>/<searchterm>/<page>")
 #def get_stories(session_id='', searchterm='', page=''):

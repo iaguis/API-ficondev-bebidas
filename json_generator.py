@@ -28,29 +28,21 @@ def json_neworder(order_id):
 def json_products(products_dict):
     return json.dumps(products_dict, ensure_ascii=False)
 
-def json_pending_orders(pendingorders):
-    pendingorders_dict = {"orders" : []}
-    for order in pendingorders:
+def json_orders(orders):
+    orders_dict = {"orders" : []}
+    for order in orders:
         order_dict = { "order_id"     : order.order_id,
-                       "product_id"   : order.product_id,
-                       "product_name" : order.products.name,
-                       "amount"       : order.amount,
-                       "date_ordered" : int(round(unix_time_millis(order.date_ordered))),
-                       "order_price"  : order.amount * order.products.price
-                     }
-        pendingorders_dict["orders"].append(order_dict)
-    return json.dumps(pendingorders_dict, ensure_ascii=False)
+                    "product_id"      : order.product_id,
+                    "product_name"      : order.products.name,
+                    "amount"       : order.amount,
+                    "date_ordered" : int(round(unix_time_millis(order.date_ordered))),
+                    "order_price" : order.amount * order.products.price
+                    }
 
-def json_ready_orders(readyorders):
-    readyorders_dict = {"orders" : []}
-    for order in readyorders:
-        order_dict = { "order_id"     : order.order_id,
-                       "product_id"      : order.product_id,
-                       "product_name"      : order.products.name,
-                       "amount"       : order.amount,
-                       "date_ordered" : int(round(unix_time_millis(order.date_ordered))),
-                       "date_ready"   : int(round(unix_time_millis(order.date_ready))),
-                       "order_price" : order.amount * order.products.price
-                     }
-        readyorders_dict["orders"].append(order_dict)
-    return json.dumps(readyorders_dict, ensure_ascii=False)
+        if order.date_ready:
+            order_dict["date_ready"] = int(round(unix_time_millis(order.date_ready)))
+            if order.date_picked:
+                order_dict["date_picked"] = int(round(unix_time_millis(order.date_picked)))
+
+        orders_dict["orders"].append(order_dict)
+    return json.dumps(orders_dict, ensure_ascii=False)

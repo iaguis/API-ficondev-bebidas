@@ -57,6 +57,7 @@ class Order(_Base):
     product_id = Column(Integer, ForeignKey('products.product_id'))
     date_ready = Column(DateTime)
     date_ordered = Column(DateTime)
+    date_picked = Column(DateTime)
 
     distributor = relationship("Distributor", backref=backref('orders'))
     products = relationship("Product", backref=backref('orders'))
