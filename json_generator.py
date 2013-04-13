@@ -46,4 +46,5 @@ def json_orders(orders):
             if order.date_picked:
                 order_dict["date_picked"] = int(round(unix_time_millis(order.date_picked)))
         orders_dict["orders"].append(order_dict)
+    print "RESPUESTA\n", json.dump(orders_dict, ensure_ascii=False)
     return json.dumps(orders_dict, ensure_ascii=False)
