@@ -4,7 +4,7 @@ import hashlib
 from validator import REG_NICK, REG_SHA1, REG_EMAIL, checkParam
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import IntegrityError
-from json_generator import json_error, json_login, json_logout, json_signup, json_neworder
+from json_generator import json_error, json_login, json_logout, json_signup, json_neworder, json_products
 from datetime import datetime
 import json
 import M2Crypto
@@ -112,7 +112,29 @@ class DAO:
             self.session.rollback()
             return json_error("ProductNotAdded")
 
-        return json_neworder()
+        return json_neworder(order.order_id)
+
+    def list_products(self, session_id):
+        distributor = self._get_distributor(session_id)
+
+        if not distributor:
+            return json_error("NotLoggedIn")
+
+        try:
+            products = self.session.query(Product).all()
+        except:
+            return json_error("error")
+
+        products_dict = { "products" : [] }
+
+        for p in products:
+            products_dict["products"].append(
+                { "product_id" : p.product_id,
+                  "name" : p.name,
+                  "description" : p.description
+                })
+
+        return json_products(products_dict)
 
     #def get_stories(self, session_id, searchterm, page):
         ## TODO check rest of parameters

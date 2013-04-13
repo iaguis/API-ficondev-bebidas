@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from sqlalchemy import Table, MetaData, create_engine, Column, ForeignKey
 from sqlalchemy.types import Integer, String, Float, DateTime, Boolean
 from sqlalchemy.orm import *
@@ -51,14 +52,13 @@ class Order(_Base):
     date = Column(DateTime)
     amount = Column(Integer)
     distributor_id = Column(Integer, ForeignKey('distributor.dist_id'))
-    delivered = Column(Boolean)
+    date_ready = Column(DateTime)
 
     distributor = relationship("Distributor", backref=backref('orders'))
 
     def __init__(self, date, amount):
         self.date = date
         self.amount = amount
-        self.delivered = False
 
     def __repr__(self):
         return "<Order('%d', '%s')>" % (self.order_id, self.amount)

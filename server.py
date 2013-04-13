@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from bottle import route, request, run
 from DAO import DAO
 
@@ -17,6 +18,10 @@ def signup(name='', email='', password='', telephone=''):
 def neworder(session_id=''):
     json_order = request.forms.get("order")
     return dao.neworder(session_id, json_order)
+
+@route("/listproducts/<session_id>")
+def listproducts(session_id=''):
+    return dao.list_products(session_id)
 
 #@route("/getStories/<session_id>/<searchterm>/<page>")
 #def get_stories(session_id='', searchterm='', page=''):
