@@ -97,7 +97,7 @@ class DAO:
         except:
             return json_error("ProductNonExistant")
 
-        order = Order(datetime.utcnow(), amount)
+        order = Order(datetime.now(), amount)
         order.distributor_id = distributor.dist_id
         order.product_id = product.product_id
         self.session.add(order)
@@ -196,6 +196,7 @@ class DAO:
             return json_error("PickedOrdersError")
 
         return json_orders(orders)
+
     def _get_distributor(self, session_id):
         try:
             distributor = self.session.query(Distributor).filter(Distributor.session_id == session_id).one()

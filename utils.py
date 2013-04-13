@@ -5,7 +5,7 @@ from datetime import datetime
 def order_ready(order_id):
     d = DAO()
     o = d.session.query(Order).filter(Order.order_id == order_id).one()
-    o.date_ready = datetime.utcnow()
+    o.date_ready = datetime.now()
     d.session.commit()
     d.session.close()
 
@@ -15,6 +15,6 @@ def pick_order(order_id):
     if not o.date_ready:
         print "Order not ready"
         return
-    o.date_picked = datetime.utcnow()
+    o.date_picked = datetime.now()
     d.session.commit()
     d.session.close()

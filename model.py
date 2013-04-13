@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from sqlalchemy import Table, MetaData, create_engine, Column, ForeignKey
-from sqlalchemy.types import Integer, String, Float, DateTime, Boolean
+from sqlalchemy import MetaData, create_engine, Column, ForeignKey
+from sqlalchemy.types import Integer, String, Float, DateTime
 from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
@@ -64,7 +64,7 @@ class Order(_Base):
     def __init__(self, date, amount):
         self.date = date
         self.amount = amount
-        self.date_ordered = datetime.utcnow()
+        self.date_ordered = datetime.now()
 
     def __repr__(self):
         return "<Order('%d', '%s')>" % (self.order_id, self.amount)
