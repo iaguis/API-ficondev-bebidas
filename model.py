@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from sqlalchemy import MetaData, create_engine, Column, ForeignKey
-from sqlalchemy.types import Integer, String, Float, DateTime
+from sqlalchemy.types import Integer, String, Float, DateTime, Boolean
 from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
@@ -57,6 +57,7 @@ class Order(_Base):
     date_ready = Column(DateTime)
     date_ordered = Column(DateTime)
     date_picked = Column(DateTime)
+    visited = Column(Boolean)
 
     distributor = relationship("Distributor", backref=backref('orders'))
     products = relationship("Product", backref=backref('orders'))
@@ -65,6 +66,7 @@ class Order(_Base):
         self.date = date
         self.amount = amount
         self.date_ordered = datetime.now()
+        self.visited = False
 
     def __repr__(self):
         return "<Order('%d', '%s')>" % (self.order_id, self.amount)

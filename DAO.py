@@ -160,19 +160,22 @@ class DAO:
     def ready_orders(self, session_id, since):
         distributor = self._get_distributor(session_id)
 
-        since_datetime = datetime.fromtimestamp(int(since)//1000)
-        print "SINCE DATETIME =", int(round(unix_time(since_datetime.now())))
-
         if not distributor:
             return json_error("NotLoggedIn")
 
         try:
-            ready_orders = self.session.query(Order).join(Order.distributor).filter((Order.date_picked == None) &
-                                                                                    (Order.date_ready > since_datetime)).all()
-            for o in ready_orders:
-                if o.date_ready:
-                    print "DATE_READY", o.order_id, "=", int(round(unix_time(o.date_ready)))
+            if since=='1':
+                ready_orders = self.session.query(Order).join(Order.distributor).filter((Order.date_picked == None) &
+                                                                                    (Order.date_ready != None) &
+                                                                                    (Order.visited == False).all()
+                for ro in ready_orders:
+                    ro.visited = True
+                self.session.commit()
+            else:
+                ready_orders = self.session.query(Order).join(Order.distributor).filter((Order.date_picked == None) &
+                                                                                    (Order.date_ready != None)).all()
         except:
+            self.session.rollback()
             return json_error("ReadyOrdersError")
 
         return json_orders(ready_orders)

@@ -43,7 +43,6 @@ def json_orders(orders):
 
         if order.date_ready:
             order_dict["date_ready"] = int(round(unix_time_millis(order.date_ready)))
-            print "DATE_READY = ", order_dict["date_ready"]
             if order.date_picked:
                 order_dict["date_picked"] = int(round(unix_time_millis(order.date_picked)))
         orders_dict["orders"].append(order_dict)
