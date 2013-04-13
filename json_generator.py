@@ -32,7 +32,8 @@ def json_pending_orders(pendingorders):
     pendingorders_dict = {"pendingorders" : []}
     for order in pendingorders:
         order_dict = { "order_id"     : order.order_id,
-                       "product"      : order.product_id,
+                       "product_id"      : order.product_id,
+                       "product_name"      : order.products.name,
                        "amount"       : order.amount,
                        "date_ordered" : int(round(unix_time_millis(order.date_ordered)))
                      }
@@ -43,7 +44,8 @@ def json_ready_orders(readyorders):
     readyorders_dict = {"readyorders" : []}
     for order in readyorders:
         order_dict = { "order_id"     : order.order_id,
-                       "product"      : order.product_id,
+                       "product_id"      : order.product_id,
+                       "product_name"      : order.products.name,
                        "amount"       : order.amount,
                        "date_ordered" : int(round(unix_time_millis(order.date_ordered))),
                        "date_ready"   : int(round(unix_time_millis(order.date_ready)))
