@@ -32,11 +32,11 @@ def json_pending_orders(pendingorders):
     pendingorders_dict = {"pendingorders" : []}
     for order in pendingorders:
         order_dict = { "order_id"     : order.order_id,
-                       "product_id"      : order.product_id,
-                       "product_name"      : order.products.name,
+                       "product_id"   : order.product_id,
+                       "product_name" : order.products.name,
                        "amount"       : order.amount,
                        "date_ordered" : int(round(unix_time_millis(order.date_ordered))),
-                       "order_price" : order.amount * order.products.price
+                       "order_price"  : order.amount * order.products.price
                      }
         pendingorders_dict["pendingorders"].append(order_dict)
     return json.dumps(pendingorders_dict, ensure_ascii=False)

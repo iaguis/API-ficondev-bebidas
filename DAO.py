@@ -152,15 +152,16 @@ class DAO:
 
         return json_pending_orders(pending_orders)
 
-
-    def ready_orders(self, session_id):
+    def ready_orders(self, session_id, since):
         distributor = self._get_distributor(session_id)
+
+        since_datetime = datetime.fromtimestamp(int(since)//1000)
 
         if not distributor:
             return json_error("NotLoggedIn")
 
         try:
-            ready_orders = self.session.query(Order).join(Order.distributor).filter(Order.date_ready != None).all()
+            ready_orders = self.session.query(Order).join(Order.distributor).filter(Order.date_ready > since_datetime).all()
         except:
             return json_error("ReadyOrdersError")
 

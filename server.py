@@ -27,9 +27,9 @@ def listproducts(session_id=''):
 def pendingorders(session_id=''):
     return dao.pending_orders(session_id)
 
-@route("/readyorders/<session_id>")
-def readyorders(session_id=''):
-    return dao.ready_orders(session_id)
+@route("/readyorders/<session_id>/<since>")
+def readyorders(session_id='', since=''):
+    return dao.ready_orders(session_id, since)
 
 
 #@route("/getStories/<session_id>/<searchterm>/<page>")
