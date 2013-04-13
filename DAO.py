@@ -167,7 +167,7 @@ class DAO:
             if since=='1':
                 ready_orders = self.session.query(Order).join(Order.distributor).filter((Order.date_picked == None) &
                                                                                     (Order.date_ready != None) &
-                                                                                    (Order.visited == False).all()
+                                                                                    (Order.visited == False)).all()
                 for ro in ready_orders:
                     ro.visited = True
                 self.session.commit()
