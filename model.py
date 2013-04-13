@@ -7,7 +7,7 @@ from sqlalchemy.orm import relationship, backref
 from config import SQL_PASS, SQL_USER
 from datetime import datetime
 
-_engine = create_engine('mysql+mysqldb://' + SQL_USER + ':' + SQL_PASS + '@localhost/bebidas', echo=True, pool_recycle=3600)
+_engine = create_engine('mysql+mysqldb://' + SQL_USER + ':' + SQL_PASS + '@localhost/bebidas', echo=False, pool_recycle=3600)
 
 _Base = declarative_base(_engine)
 _metadata = MetaData(bind=_engine)
