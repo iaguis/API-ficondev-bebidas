@@ -29,7 +29,7 @@ def json_products(products_dict):
     return json.dumps(products_dict, ensure_ascii=False)
 
 def json_pending_orders(pendingorders):
-    pendingorders_dict = {"pendingorders" : []}
+    pendingorders_dict = {"orders" : []}
     for order in pendingorders:
         order_dict = { "order_id"     : order.order_id,
                        "product_id"   : order.product_id,
@@ -42,7 +42,7 @@ def json_pending_orders(pendingorders):
     return json.dumps(pendingorders_dict, ensure_ascii=False)
 
 def json_ready_orders(readyorders):
-    readyorders_dict = {"readyorders" : []}
+    readyorders_dict = {"orders" : []}
     for order in readyorders:
         order_dict = { "order_id"     : order.order_id,
                        "product_id"      : order.product_id,

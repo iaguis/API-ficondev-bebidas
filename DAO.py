@@ -14,8 +14,8 @@ class DAO:
     def __init__(self):
         self.session = loadSession()
 
-    def expire_session(self):
-        self.session.expire_all()
+    def renew_session(self):
+        self.session = loadSession()
 
     def _get_random_hash (self):
         random_hash = hashlib.sha1(M2Crypto.m2.rand_bytes(2048)).hexdigest()
