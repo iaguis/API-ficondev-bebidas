@@ -159,13 +159,14 @@ class DAO:
         distributor = self._get_distributor(session_id)
 
         since_datetime = datetime.fromtimestamp(int(since)//1000)
+        print "SINCE DATETIME =", since_datetime
 
         if not distributor:
             return json_error("NotLoggedIn")
 
         try:
             ready_orders = self.session.query(Order).join(Order.distributor).filter((Order.date_picked == None) &
-                                                                                    (Order.date_ready > since_datetime)).all()
+                                                                                    (Order.date_ready < since_datetime)).all()
         except:
             return json_error("ReadyOrdersError")
 
