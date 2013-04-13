@@ -58,6 +58,7 @@ class Order(_Base):
     date_ordered = Column(DateTime)
     date_picked = Column(DateTime)
     visited = Column(Boolean)
+    visited_pick = Column(Boolean)
 
     distributor = relationship("Distributor", backref=backref('orders'))
     products = relationship("Product", backref=backref('orders'))
@@ -67,6 +68,7 @@ class Order(_Base):
         self.amount = amount
         self.date_ordered = datetime.now()
         self.visited = False
+        self.visited_pick = False
 
     def __repr__(self):
         return "<Order('%d', '%s')>" % (self.order_id, self.amount)

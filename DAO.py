@@ -193,18 +193,29 @@ class DAO:
 
         return json_orders(orders)
 
-    def picked_orders(self, session_id):
+    def picked_orders(self, session_id, since):
         distributor = self._get_distributor(session_id)
 
         if not distributor:
             return json_error("NotLoggedIn")
 
         try:
-            orders = self.session.query(Order).join(Order.distributor).filter(Order.date_picked != None).all()
+            if since=='1':
+                picked_orders = self.session.query(Order).join(Order.distributor).filter((Order.date_picked != None) &
+                                                                                    (Order.date_ready != None) &
+                                                                                    (Order.visited_pick == False)).all()
+
+                for ro in picked_orders:
+                    ro.visited_pick = True
+                self.session.commit()
+            else:
+                picked_orders = self.session.query(Order).join(Order.distributor).filter((Order.date_picked != None) &
+                                                                                    (Order.date_ready != None)).all()
         except:
+            self.session.rollback()
             return json_error("PickedOrdersError")
 
-        return json_orders(orders)
+        return json_orders(picked_orders)
 
     def _get_distributor(self, session_id):
         try:

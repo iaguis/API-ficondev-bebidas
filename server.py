@@ -39,10 +39,10 @@ def orders(session_id=''):
     dao.renew_session()
     return dao.orders(session_id)
 
-@route("/pickedorders/<session_id>")
-def pickedorders(session_id=''):
+@route("/pickedorders/<session_id>/<since>")
+def pickedorders(session_id='', since=''):
     dao.renew_session()
-    return dao.picked_orders(session_id)
+    return dao.picked_orders(session_id, since)
 
 dao = DAO()
 run (host='localhost', port=8080, debug=True)
