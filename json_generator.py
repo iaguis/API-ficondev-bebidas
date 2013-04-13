@@ -36,7 +36,8 @@ def json_orders(orders):
                     "product_name"      : order.products.name,
                     "amount"       : order.amount,
                     "date_ordered" : int(round(unix_time_millis(order.date_ordered))),
-                    "order_price" : order.amount * order.products.price
+                    "order_price" : order.amount * order.products.price,
+                    "server_time" : int(round(unix_time_millis(datetime.now())))
                     }
 
         if order.date_ready:
