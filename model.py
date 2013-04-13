@@ -1,5 +1,5 @@
 from sqlalchemy import Table, MetaData, create_engine, Column, ForeignKey
-from sqlalchemy.types import Integer, String, Float, DateTime
+from sqlalchemy.types import Integer, String, Float, DateTime, Boolean
 from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
@@ -18,12 +18,14 @@ class Distributor(_Base):
     email = Column(String(length=255))
     password = Column(String(length=200))
     telephone = Column(String(length=15))
+    session_id = Column(String(length=40))
 
-    def __init__(self, name, email, password, telephone):
+    def __init__(self, name, email, password, telephone, session_id):
         self.name = name
         self.email = email
         self.password = password
         self.telephone = telephone
+        self.session_id = session_id
 
     def __repr__(self):
         return "<Distributor('%s', '%s')>" % (self.name, self.email)
@@ -49,12 +51,14 @@ class Order(_Base):
     date = Column(DateTime)
     amount = Column(Integer)
     distributor_id = Column(Integer, ForeignKey('distributor.dist_id'))
+    delivered = Column(Boolean)
 
     distributor = relationship("Distributor", backref=backref('orders'))
 
     def __init__(self, date, amount):
         self.date = date
         self.amount = amount
+        self.delivered = False
 
     def __repr__(self):
         return "<Order('%d', '%s')>" % (self.order_id, self.amount)
