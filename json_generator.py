@@ -30,6 +30,7 @@ def json_products(products_dict):
 
 def json_orders(orders):
     orders_dict = {"orders" : []}
+    print int(round(unix_time_millis(datetime.now())))
     for order in orders:
         order_dict = { "order_id"     : order.order_id,
                     "product_id"      : order.product_id,
