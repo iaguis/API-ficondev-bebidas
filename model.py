@@ -75,10 +75,12 @@ class Product(_Base):
     product_id = Column(Integer, primary_key=True)
     name = Column(String(length=255))
     description = Column(String(length=255))
+    price = Column(Float)
 
-    def __init__(self, name, description):
+    def __init__(self, name, description, price):
         self.name = name
         self.description = description
+        self.price = price
 
     def __repr(self):
         return "<Product('%s')>" % (self.name)

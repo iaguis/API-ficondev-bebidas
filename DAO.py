@@ -133,7 +133,8 @@ class DAO:
             products_dict["products"].append(
                 { "product_id" : p.product_id,
                   "name" : p.name,
-                  "description" : p.description
+                  "description" : p.description,
+                  "price" : p.price
                 })
 
         return json_products(products_dict)
