@@ -53,7 +53,6 @@ class Order(_Base):
     date = Column(DateTime)
     amount = Column(Integer)
     distributor_id = Column(Integer, ForeignKey('distributor.dist_id'))
-    # change this when a lot of products
     product_id = Column(Integer, ForeignKey('products.product_id'))
     date_ready = Column(DateTime)
     date_ordered = Column(DateTime)
@@ -85,15 +84,6 @@ class Product(_Base):
 
     def __repr(self):
         return "<Product('%s')>" % (self.name)
-
-#class Product_Order(_Base):
-    #__tablename__ = 'product_order'
-
-    #product_order_id = Column(Integer, primary_key=True)
-    #product_id = Column(Integer, ForeignKey('products.product_id'))
-    #order_id = Column(Integer, ForeignKey('orders.order_id'))
-    #product = relationship("Product", backref=backref('orders'))
-    #order = relationship("Order", backref=backref('products'))
 
 def loadSession():
     Session = sessionmaker(bind=_engine)

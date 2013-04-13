@@ -18,4 +18,3 @@ def pick_order(order_id):
     o.date_picked = datetime.utcnow()
     d.session.commit()
     d.session.close()
-
