@@ -169,6 +169,9 @@ class DAO:
         try:
             ready_orders = self.session.query(Order).join(Order.distributor).filter((Order.date_picked == None) &
                                                                                     (Order.date_ready > since_datetime)).all()
+            for o in ready_orders:
+                if o.date_ready:
+                    print "DATE_READY", o.order_id, "=", int(round(unix_time(o.date_ready)))
         except:
             return json_error("ReadyOrdersError")
 
