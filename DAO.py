@@ -14,13 +14,16 @@ class DAO:
     def __init__(self):
         self.session = loadSession()
 
+    def expire_session(self):
+        self.session.expire_all()
+
     def _get_random_hash (self):
         random_hash = hashlib.sha1(M2Crypto.m2.rand_bytes(2048)).hexdigest()
         return random_hash
 
     def login(self, email, password):
         if not checkParam(email, 50, REG_EMAIL):
-            return json_error("InvalidParameter")
+            return ""
 
         try:
             distributor = self.session.query(Distributor).filter(Distributor.email == email).one()
@@ -35,10 +38,10 @@ class DAO:
                     self.session.commit()
                 except:
                     self.session.rollback()
-                    json_error("Rollback")
-            return json_login(distributor.session_id)
+                    return ""
+            return ""
         else:
-            return json_error("UserOrPasswordIncorrect")
+            return ""
 
     def logout(self, session_id):
         if not (checkParam(session_id, 40, REG_SHA1)):
@@ -166,6 +169,20 @@ class DAO:
             return json_error("ReadyOrdersError")
 
         return json_ready_orders(ready_orders)
+
+    def orders(self, session_id):
+        distributor = self._get_distributor(session_id)
+
+        if not distributor:
+            return json_error("NotLoggedIn")
+
+        try:
+            orders = self.session.query(Order).join(Order.distributor).all()
+        except:
+            return json_error("ReadyOrdersError")
+
+        return json_
+
 
 
     #def get_stories(self, session_id, searchterm, page):

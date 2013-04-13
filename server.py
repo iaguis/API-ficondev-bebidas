@@ -21,14 +21,17 @@ def neworder(session_id=''):
 
 @route("/listproducts/<session_id>")
 def listproducts(session_id=''):
+    dao.expire_session()
     return dao.list_products(session_id)
 
 @route("/pendingorders/<session_id>")
 def pendingorders(session_id=''):
+    dao.expire_session()
     return dao.pending_orders(session_id)
 
 @route("/readyorders/<session_id>/<since>")
 def readyorders(session_id='', since=''):
+    dao.expire_session()
     return dao.ready_orders(session_id, since)
 
 
