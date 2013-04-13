@@ -30,6 +30,8 @@ def json_products(products_dict):
 
 def json_orders(orders):
     orders_dict = {"orders" : []}
+    orders_dict["server_time"] = int(round(unix_time_millis(datetime.now())))
+
     print int(round(unix_time_millis(datetime.now())))
     for order in orders:
         order_dict = { "order_id"     : order.order_id,
@@ -38,13 +40,11 @@ def json_orders(orders):
                     "amount"       : order.amount,
                     "date_ordered" : int(round(unix_time_millis(order.date_ordered))),
                     "order_price" : order.amount * order.products.price,
-                    "server_time" : int(round(unix_time_millis(datetime.now())))
                     }
 
         if order.date_ready:
             order_dict["date_ready"] = int(round(unix_time_millis(order.date_ready)))
             if order.date_picked:
                 order_dict["date_picked"] = int(round(unix_time_millis(order.date_picked)))
-
         orders_dict["orders"].append(order_dict)
     return json.dumps(orders_dict, ensure_ascii=False)
