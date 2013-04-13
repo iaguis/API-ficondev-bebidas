@@ -15,6 +15,7 @@ class DAO:
         self.session = loadSession()
 
     def renew_session(self):
+        self.session.close()
         self.session = loadSession()
 
     def _get_random_hash (self):
