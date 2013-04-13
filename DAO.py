@@ -39,7 +39,7 @@ class DAO:
                 except:
                     self.session.rollback()
                     return ""
-            return ""
+            return json_login(distributor.session_id)
         else:
             return ""
 
