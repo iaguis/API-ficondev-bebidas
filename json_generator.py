@@ -38,7 +38,7 @@ def json_pending_orders(pendingorders):
                        "date_ordered" : int(round(unix_time_millis(order.date_ordered))),
                        "order_price"  : order.amount * order.products.price
                      }
-        pendingorders_dict["pendingorders"].append(order_dict)
+        pendingorders_dict["orders"].append(order_dict)
     return json.dumps(pendingorders_dict, ensure_ascii=False)
 
 def json_ready_orders(readyorders):
@@ -52,5 +52,5 @@ def json_ready_orders(readyorders):
                        "date_ready"   : int(round(unix_time_millis(order.date_ready))),
                        "order_price" : order.amount * order.products.price
                      }
-        readyorders_dict["readyorders"].append(order_dict)
+        readyorders_dict["orders"].append(order_dict)
     return json.dumps(readyorders_dict, ensure_ascii=False)
