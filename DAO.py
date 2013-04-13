@@ -9,7 +9,7 @@ from datetime import datetime
 import json
 import M2Crypto
 #TODO REMOVE THIS
-from json_generator import unix_time_millis
+from json_generator import unix_time
 
 class DAO:
     def __init__(self):
@@ -161,14 +161,14 @@ class DAO:
         distributor = self._get_distributor(session_id)
 
         since_datetime = datetime.fromtimestamp(int(since)//1000)
-        print "SINCE DATETIME =", int(round(unix_time_millis(since_datetime.now())))
+        print "SINCE DATETIME =", int(round(unix_time(since_datetime.now())))
 
         if not distributor:
             return json_error("NotLoggedIn")
 
         try:
             ready_orders = self.session.query(Order).join(Order.distributor).filter((Order.date_picked == None) &
-                                                                                    (Order.date_ready < since_datetime)).all()
+                                                                                    (Order.date_ready > since_datetime)).all()
         except:
             return json_error("ReadyOrdersError")
 
