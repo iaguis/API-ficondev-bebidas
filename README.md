@@ -32,5 +32,14 @@ El servidor se arranca en el puerto 8080 por defecto con
 
 A continuación se pueden hacer las peticiones REST definidas en server.py
 
+El archivo utils.py incluye un par de métodos que serían los que la empresa de
+fabricación de bebidas utilizaría para marcar un pedido como preparado para
+recoger y para marcarlo como recogido. Para ejecutarlos, por ejemplo, en el pedido con id
+número 1, en una consola Python:
+
+    >>> import utils
+    >>> utils.order_ready(1)
+    >>> utils.pick_order(1)
+
 [ficondev-android]: https://github.com/SantiMunin/FicOnDev-Android "FicOnDev-Android"
 [ficondev]: http://ficondev.es/
