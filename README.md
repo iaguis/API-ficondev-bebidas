@@ -41,5 +41,12 @@ número 1, en una consola Python:
     >>> utils.order_ready(1)
     >>> utils.pick_order(1)
 
+Requisitos:
+
+    python-bottle
+    python-sqlalchemy
+    python-MySQLdb
+    python-m2crypto
+
 [ficondev-android]: https://github.com/SantiMunin/FicOnDev-Android "FicOnDev-Android"
 [ficondev]: http://ficondev.es/
