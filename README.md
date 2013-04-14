@@ -6,9 +6,9 @@ android][ficondev-android] desarrollada junto con @SantiMunin para la [FicOnDev 
 
 Se trata de una aplicación de gestión de pedidos para distribuidores de bebidas
 no azucaradas. Nuestra API incluye métodos de autenticación, desautenticación.
-listar productos, hacer un pedido y ver los pedidos pendientes, preparados y
-recogidos por el distribuidor. El estado se mantiene con una session id que se
-mantiene hasta que el usuario hace logout de la aplicación.
+listar productos, hacer un pedido y ver los pedidos pendientes de preparación,
+preparados para recoger y recogidos por el distribuidor. El estado se mantiene
+con una session id hasta que el usuario hace logout de la aplicación.
 
 Por cuestiones de tiempo, un pedido solo puede tener un producto pero se podría
 ampliar en el futuro de forma sencilla.
