@@ -8,8 +8,6 @@ from json_generator import json_error, json_login, json_logout, json_signup, jso
 from datetime import datetime
 import json
 import M2Crypto
-#TODO REMOVE THIS
-from json_generator import unix_time
 
 class DAO:
     def __init__(self):

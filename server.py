@@ -10,10 +10,6 @@ def login(email='', password=''):
 def logout(session_id=''):
     return dao.logout(session_id)
 
-@route("/signup/<name>/<email>/<password>/<telephone>", method="POST")
-def signup(name='', email='', password='', telephone=''):
-    return dao.signup(name, email, password, telephone)
-
 @route("/neworder/<session_id>", method="POST")
 def neworder(session_id=''):
     json_order = request.forms.get("order")
