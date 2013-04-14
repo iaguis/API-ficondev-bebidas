@@ -15,7 +15,8 @@ ampliar en el futuro de forma sencilla.
 
 El servidor asume que hay una base de datos MySQL con el usuario y password
 indicados en config.py y con permisos totales para una base de datos llamada
-bebidas. Para crear la base de datos se puede utilizar el script SQL
+bebidas. Para crear la base de datos se puede utilizar el script SQL ejecutado
+en la consola MySQL como el usuario bebidasmaster
 
     mysql> source recreate_db.sql
 
